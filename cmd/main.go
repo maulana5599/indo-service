@@ -1,8 +1,11 @@
 package main
 
 import (
-	"net/http"
+	"echo-boilerplate/start"
+	"log"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -17,8 +20,19 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	// Load Configuration with ENV.
+	loadEnv()
+	portApp := os.Getenv("APP_PORT")
+
+	// Load Route.
+	start.Route(e)
+	e.Logger.Fatal(e.Start(":" + portApp))
+}
+
+func loadEnv() {
+	env := godotenv.Load(".env")
+	if env != nil {
+		log.Println("Error loading .env file")
+		panic("Error loading .env file")
+	}
 }
