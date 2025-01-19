@@ -1,6 +1,7 @@
 package main
 
 import (
+	"echo-boilerplate/config"
 	"echo-boilerplate/start"
 	"log"
 	"os"
@@ -23,6 +24,9 @@ func main() {
 	// Load Configuration with ENV.
 	loadEnv()
 	portApp := os.Getenv("APP_PORT")
+
+	// Load Database.
+	config.DatabaseConnection()
 
 	// Load Route.
 	start.Route(e)

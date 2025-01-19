@@ -13,6 +13,11 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type EmailDatabase struct {
+	Email    string
+	Password string
+}
+
 type Claims struct {
 	Username  string
 	ExpiresAt time.Time
