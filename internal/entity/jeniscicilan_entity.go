@@ -7,7 +7,7 @@ type JenisCicilan struct {
 	NamaCicilan     string
 	PokokCicilan    float64
 	TotalAngsuran   float64
-	JumlahAngsuran  float64
+	JumlahAngsuran  int
 	MarginCicilan   float64
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
@@ -21,6 +21,6 @@ type JenisCicilanRequest struct {
 	NamaCicilan    string  `json:"nama_cicilan"`
 	PokokCicilan   float64 `json:"pokok_cicilan"`
 	TotalAngsuran  float64 `json:"total_angsuran"`
-	JumlahAngsuran float64 `json:"jumlah_angsuran"`
+	JumlahAngsuran int     `json:"jumlah_angsuran"`
 	MarginCicilan  float64 `json:"margin_cicilan"`
 }

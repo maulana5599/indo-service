@@ -39,7 +39,7 @@ func LoginHandler(c echo.Context) error {
 	}
 
 	// Set token expiration time
-	expirationTime := time.Now().Add(30 * time.Minute)
+	expirationTime := time.Now().Add(3600 * time.Minute)
 	claims := entity.Claims{
 		Username:  loginRequest.Email,
 		ExpiresAt: expirationTime,

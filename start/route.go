@@ -13,9 +13,12 @@ func Route(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	v1 := e.Group("v1")
+	v1 := e.Group("v1", middleware.AuthMiddleware)
 	ServiceAuth(v1)
+	ServiceUsers(v1)
 	ServiceJenisCicilan(v1)
+	ServiceCicilan(v1)
+	ServicePembayaranCicilan(v1)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -27,7 +30,24 @@ func ServiceAuth(v1 *echo.Group) {
 	}
 }
 
+func ServiceUsers(v1 *echo.Group) {
+	v1.GET("/sysadmin/get-users", handlers.GetSiswa)
+	v1.GET("/sysadmin/get-users/:id", handlers.GetSiswaById)
+	v1.GET("/sysadmin/sync-users", handlers.SyncUsers)
+}
+
 func ServiceJenisCicilan(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-cicilan", handlers.GetJenisCicilan, middleware.AuthMiddleware)
 	v1.POST("/sysadmin/add-cicilan", handlers.AddJenisCicilan, middleware.AuthMiddleware)
+}
+
+func ServiceCicilan(v1 *echo.Group) {
+	v1.GET("/sysadmin/get-cicilan", handlers.GetDataCicilan)
+	v1.GET("/sysadmin/get-cicilan/:user_id", handlers.GetCicilanUser)
+	v1.POST("/sysadmin/add-cicilan", handlers.AddCicilan)
+	v1.DELETE("/sysadmin/batal-cicilan", handlers.BatalPengajuanCicilan)
+}
+
+func ServicePembayaranCicilan(v1 *echo.Group) {
+	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa", handlers.GetPembayaranCicilanId)
 }
