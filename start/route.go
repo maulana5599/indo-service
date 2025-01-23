@@ -49,5 +49,6 @@ func ServiceCicilan(v1 *echo.Group) {
 }
 
 func ServicePembayaranCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa", handlers.GetPembayaranCicilanId)
+	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa/:user_id", handlers.GetPembayaranCicilanId)
+	v1.POST("/sysadmin/ubah-status-pembayaran-cicilan", handlers.UbahStatusPembayaranCicilan)
 }

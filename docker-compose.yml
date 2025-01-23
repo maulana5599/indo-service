@@ -4,45 +4,15 @@ services:
     build: 
       dockerfile: Dockerfile
       context: .
-    image: myapp-image
-    container_name: backend-service-app
+    image: backend-koperasi
+    container_name: backend-service-koperasi
     ports:
-      - 7004:7004
+      - 8090:8090
     restart: "unless-stopped"
     tty: true
     networks:
       - gonetwork
       
-  # nsqlookupd:
-  #   image: nsqio/nsq
-  #   command: /nsqlookupd
-  #   ports:
-  #     - "4160:4160"
-  #     - "4161:4161"
-  #   networks:
-  #     - gonetwork
-    
-  # nsqd:
-  #   image: nsqio/nsq
-  #   command:  /nsqd --broadcast-address=nsqd --lookupd-tcp-address=nsqlookupd:4160
-  #   depends_on:
-  #     - nsqlookupd
-  #   ports:
-  #     - "4151:4151"
-  #     - "4150:4150"
-  #   networks:
-  #     - gonetwork
-    
-  # nsqadmin:
-  #   image: nsqio/nsq
-  #   command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
-  #   depends_on:
-  #     - nsqlookupd  
-  #   ports:
-  #     - "4171:4171"
-  #   networks:
-  #     - gonetwork
-
 networks:
   gonetwork:
     driver: bridge
