@@ -42,8 +42,8 @@ func ServiceJenisCicilan(v1 *echo.Group) {
 }
 
 func ServiceCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-cicilan", handlers.GetDataCicilan)
-	v1.GET("/sysadmin/get-cicilan/:user_id", handlers.GetCicilanUser)
+	v1.GET("/sysadmin/get-cicilan-siswa", handlers.GetDataCicilan)
+	v1.POST("/sysadmin/get-cicilan-siswa-id", handlers.GetCicilanUser)
 	v1.POST("/sysadmin/add-cicilan", handlers.AddCicilan)
 	v1.DELETE("/sysadmin/batal-cicilan", handlers.BatalPengajuanCicilan)
 }

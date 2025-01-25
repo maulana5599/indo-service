@@ -3,6 +3,7 @@ package handlers
 import (
 	"echo-boilerplate/internal/entity"
 	"echo-boilerplate/internal/models"
+	"echo-boilerplate/pkg/utils"
 	"net/http"
 	"strconv"
 
@@ -11,9 +12,40 @@ import (
 )
 
 func GetDataCicilan(c echo.Context) error {
+	result, _ := models.GetDataPengajuanCicilan()
+	var response []entity.PengajuanCicilanResponse
+
+	for _, v := range result {
+		idEnc, err := utils.Encrypt(strconv.Itoa(v.UserId))
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, echo.Map{
+				"status":  http.StatusInternalServerError,
+				"message": err.Error(),
+			})
+		}
+
+		response = append(response, entity.PengajuanCicilanResponse{
+			PengajuancicilanId: v.PengajuancicilanId,
+			UserId:             idEnc,
+			NoKtp:              v.NoKtp,
+			Alamat:             v.Alamat,
+			NoSiswa:            v.NoSiswa,
+			Pekerjaan:          v.Pekerjaan,
+			Orangtua:           v.Orangtua,
+			NohpOrtu:           v.NohpOrtu,
+			KontakDarurat:      v.KontakDarurat,
+			Jaminan:            v.Jaminan,
+			Keterangan:         nil,
+			JeniscicilanId:     v.JeniscicilanId,
+			CreatedAt:          v.CreatedAt.Format("2006-01-02"),
+			UpdatedAt:          v.UpdatedAt.Format("2006-01-02"),
+		})
+	}
+
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":  http.StatusOK,
 		"message": "Get Data Cicilan",
+		"data":    response,
 	})
 }
 
@@ -73,8 +105,31 @@ func BatalPengajuanCicilan(c echo.Context) error {
 }
 
 func GetCicilanUser(c echo.Context) error {
-	userId, _ := strconv.Atoi(c.Param("user_id"))
-	result, err := models.GetCicilanUser(userId)
+	var request interface{}
+	if err := c.Bind(&request); err != nil {
+		return err
+	}
+
+	userId := request.(map[string]interface{})["userId"].(string)
+	if userId == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"status":  http.StatusBadRequest,
+			"message": "User Id Tidak Boleh Kosong !",
+		})
+	}
+
+	// Decrypt token
+	userDec, err := utils.Decrypt(userId)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	userIdInt, _ := strconv.Atoi(userDec)
+	result, err := models.GetCicilanUser(userIdInt)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{
@@ -87,8 +142,8 @@ func GetCicilanUser(c echo.Context) error {
 	for _, v := range result {
 		response = append(response, entity.PengajuanCicilanResponse{
 			PengajuancicilanId: v.PengajuancicilanId,
-			UserId:             v.UserId,
 			NoKtp:              v.NoKtp,
+			UserId:             v.UserId,
 			Alamat:             v.Alamat,
 			NoSiswa:            v.NoSiswa,
 			Pekerjaan:          v.Pekerjaan,

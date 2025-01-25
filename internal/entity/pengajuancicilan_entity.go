@@ -38,19 +38,19 @@ type PengajuanCicilanRequest struct {
 }
 
 type PengajuanCicilanResponse struct {
-	PengajuancicilanId int     `json:"pengajuancicilan_id"`
-	UserId             int     `json:"user_id"`
-	NoKtp              string  `json:"no_ktp"`
-	Alamat             string  `json:"alamat"`
-	NoSiswa            string  `json:"no_siswa"`
-	Pekerjaan          string  `json:"pekerjaan"`
-	Orangtua           string  `json:"orang_tua"`
-	NohpOrtu           string  `json:"nohp_ortu"`
-	KontakDarurat      string  `json:"kontak_darurat"`
-	Jaminan            string  `json:"jaminan"`
-	TglPencairan       *string `json:"tgl_pencairan"`
-	Keterangan         *string `json:"keterangan"`
-	JeniscicilanId     int     `json:"jeniscicilan_id"`
-	CreatedAt          string  `json:"created_at"`
-	UpdatedAt          string  `json:"updated_at"`
+	PengajuancicilanId int         `json:"pengajuancicilan_id"`
+	UserId             interface{} `json:"user_id,omitempty"`
+	NoKtp              string      `json:"no_ktp"`
+	Alamat             string      `json:"alamat"`
+	NoSiswa            string      `json:"no_siswa"`
+	Pekerjaan          string      `json:"pekerjaan"`
+	Orangtua           string      `json:"orang_tua"`
+	NohpOrtu           string      `json:"nohp_ortu"`
+	KontakDarurat      string      `json:"kontak_darurat"`
+	Jaminan            string      `json:"jaminan"`
+	TglPencairan       *string     `json:"tgl_pencairan"`
+	Keterangan         *string     `json:"keterangan"`
+	JeniscicilanId     int         `json:"jeniscicilan_id"`
+	CreatedAt          string      `json:"created_at"`
+	UpdatedAt          string      `json:"updated_at"`
 }
