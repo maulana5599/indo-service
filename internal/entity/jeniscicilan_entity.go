@@ -24,3 +24,12 @@ type JenisCicilanRequest struct {
 	JumlahAngsuran int     `json:"jumlah_angsuran"`
 	MarginCicilan  float64 `json:"margin_cicilan"`
 }
+
+type JenisCicilanResponse struct {
+	JenispinjamanId int     `json:"jenispinjaman_id"`
+	NamaCicilan     string  `json:"nama_cicilan"`
+	PokokCicilan    float64 `json:"pokok_cicilan"`
+	TotalAngsuran   float64 `json:"total_angsuran"`
+	JumlahAngsuran  int     `json:"jumlah_angsuran"`
+	MarginCicilan   float64 `json:"margin_cicilan"`
+}

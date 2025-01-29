@@ -11,9 +11,31 @@ import (
 )
 
 func GetJenisCicilan(c echo.Context) error {
+	result, err := models.GetJenisCicilan()
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	var response []entity.JenisCicilanResponse
+	for _, v := range result {
+		response = append(response, entity.JenisCicilanResponse{
+			JenispinjamanId: v.JenispinjamanId,
+			NamaCicilan:     v.NamaCicilan,
+			PokokCicilan:    v.PokokCicilan,
+			TotalAngsuran:   v.TotalAngsuran,
+			JumlahAngsuran:  v.JumlahAngsuran,
+			MarginCicilan:   v.MarginCicilan,
+		})
+	}
+
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":  http.StatusOK,
 		"message": "Get Jenis Cicilan",
+		"data":    response,
 	})
 }
 

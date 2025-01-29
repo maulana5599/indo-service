@@ -13,7 +13,7 @@ func Route(e *echo.Echo) {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
-	v1 := e.Group("v1", middleware.AuthMiddleware)
+	v1 := e.Group("v1")
 	ServiceAuth(v1)
 	ServiceUsers(v1)
 	ServiceJenisCicilan(v1)

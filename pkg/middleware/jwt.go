@@ -23,7 +23,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		stringCut := strings.Replace(tokenString, "Bearer ", "", -1)
 
-		err := verifyToken(stringCut)
+		err := VerifyToken(stringCut)
 		if err != nil {
 			return ctx.JSON(http.StatusUnauthorized, echo.Map{
 				"status":  http.StatusUnauthorized,
@@ -35,7 +35,7 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
-func verifyToken(tokenString string) error {
+func VerifyToken(tokenString string) error {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
