@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  app:
+    build: 
+      dockerfile: Dockerfile
+      context: .
+    image: myapp-image
+    container_name: backend-service-koperasi
+    ports:
+      - 8090:8090
+    restart: "unless-stopped"
+    tty: true
+    networks:
+      - gonetwork
+  
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq-service-koperasi
+    ports:
+      - 5673:5672
+      - 15673:15672
+    networks:
+      - gonetwork
+
+networks:
+  gonetwork:
+    driver: bridge
+    ipam: 
+      driver: default
+      config: 
+        - subnet: 173.10.10.0/24

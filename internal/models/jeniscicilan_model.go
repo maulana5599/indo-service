@@ -27,6 +27,15 @@ func AddJenisCicilan(jenisCicilan *entity.JenisCicilan) error {
 	return nil
 }
 
+func DeleteCicilan(id int) error {
+	tx := config.DB.Delete(&entity.JenisCicilan{}, id)
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	return nil
+}
+
 func isNameUniqueDB(name string) bool {
 	var count int64
 	config.DB.Model(entity.JenisCicilan{}).Where("nama_cicilan = ?", name).Count(&count)

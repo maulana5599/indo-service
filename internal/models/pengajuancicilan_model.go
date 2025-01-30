@@ -7,9 +7,9 @@ import (
 	"time"
 )
 
-func GetDataPengajuanCicilan() ([]entity.PengajuanCicilan, error) {
-	var result []entity.PengajuanCicilan
-	tx := config.DB.Find(&result)
+func GetDataPengajuanCicilan() ([]entity.PengajuanCicilanView, error) {
+	var result []entity.PengajuanCicilanView
+	tx := config.DB.Table("pengajuan_v").Find(&result)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

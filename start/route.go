@@ -12,13 +12,14 @@ func Route(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-
 	v1 := e.Group("v1")
 	ServiceAuth(v1)
-	ServiceUsers(v1)
-	ServiceJenisCicilan(v1)
-	ServiceCicilan(v1)
-	ServicePembayaranCicilan(v1)
+
+	v1Protected := e.Group("v1", middleware.AuthMiddleware)
+	ServiceUsers(v1Protected)
+	ServiceJenisCicilan(v1Protected)
+	ServiceCicilan(v1Protected)
+	ServicePembayaranCicilan(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -34,11 +35,14 @@ func ServiceUsers(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-users", handlers.GetSiswa)
 	v1.GET("/sysadmin/get-users/:id", handlers.GetSiswaById)
 	v1.GET("/sysadmin/sync-users", handlers.SyncUsers)
+	v1.GET("/sysadmin/get-customer", handlers.GetCustomer)
+	v1.GET("/sysadmin/search-customer", handlers.SearchCustomer)
 }
 
 func ServiceJenisCicilan(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-cicilan", handlers.GetJenisCicilan, middleware.AuthMiddleware)
-	v1.POST("/sysadmin/add-cicilan", handlers.AddJenisCicilan, middleware.AuthMiddleware)
+	v1.DELETE("/sysadmin/delete-jenis-cicilan", handlers.HapusCicilanById, middleware.AuthMiddleware)
+	v1.POST("/sysadmin/add-jenis-cicilan", handlers.AddJenisCicilan, middleware.AuthMiddleware)
 }
 
 func ServiceCicilan(v1 *echo.Group) {

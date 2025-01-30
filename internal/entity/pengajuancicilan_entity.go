@@ -24,6 +24,25 @@ func (PengajuanCicilan) TableName() string {
 	return "pengajuancicilan_t"
 }
 
+type PengajuanCicilanView struct {
+	Nama               string     `json:"nama_user"`
+	PengajuancicilanId int        `json:"pengajuancicilan_id"`
+	UserId             int        `json:"user_id"`
+	NoKtp              string     `json:"no_ktp"`
+	Alamat             string     `json:"alamat"`
+	Pekerjaan          string     `json:"pekerjaan"`
+	Orangtua           string     `json:"orang_tua"`
+	NohpOrtu           string     `json:"nohp_ortu"`
+	KontakDarurat      string     `json:"kontak_darurat"`
+	Jaminan            string     `json:"jaminan"`
+	TglPencairan       *time.Time `json:"tgl_pencairan"`
+	JenisCicilanid     int        `json:"jeniscicilan_id"`
+	NamaCicilan        string     `json:"nama_cicilan"`
+	PokokCicilan       float64    `json:"pokok_cicilan"`
+	TotalAngsuran      float64    `json:"total_angsuran"`
+	JumlahAngsuran     int        `json:"jumlah_angsuran"`
+}
+
 type PengajuanCicilanRequest struct {
 	UserId        int    `json:"user_id"`
 	NoKtp         string `json:"no_ktp"`

@@ -118,3 +118,24 @@ func SyncUsers(c echo.Context) error {
 		"data":    users,
 	})
 }
+
+func GetCustomer(c echo.Context) error {
+	result, _ := models.GetCustomerAll()
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"status":  http.StatusOK,
+		"message": "Get All Users",
+		"data":    result,
+	})
+}
+
+func SearchCustomer(c echo.Context) error {
+	name := c.QueryParam("nama_customer")
+	result, _ := models.SearchCustomer(name)
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"status":  http.StatusOK,
+		"message": "Get All Users",
+		"data":    result,
+	})
+}

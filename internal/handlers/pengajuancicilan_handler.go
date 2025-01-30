@@ -13,39 +13,39 @@ import (
 
 func GetDataCicilan(c echo.Context) error {
 	result, _ := models.GetDataPengajuanCicilan()
-	var response []entity.PengajuanCicilanResponse
+	// var response []entity.PengajuanCicilanResponse
 
-	for _, v := range result {
-		idEnc, err := utils.Encrypt(strconv.Itoa(v.UserId))
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, echo.Map{
-				"status":  http.StatusInternalServerError,
-				"message": err.Error(),
-			})
-		}
+	// for _, v := range result {
+	// 	idEnc, err := utils.Encrypt(strconv.Itoa(v.UserId))
+	// 	if err != nil {
+	// 		return c.JSON(http.StatusInternalServerError, echo.Map{
+	// 			"status":  http.StatusInternalServerError,
+	// 			"message": err.Error(),
+	// 		})
+	// 	}
 
-		response = append(response, entity.PengajuanCicilanResponse{
-			PengajuancicilanId: v.PengajuancicilanId,
-			UserId:             idEnc,
-			NoKtp:              v.NoKtp,
-			Alamat:             v.Alamat,
-			NoSiswa:            v.NoSiswa,
-			Pekerjaan:          v.Pekerjaan,
-			Orangtua:           v.Orangtua,
-			NohpOrtu:           v.NohpOrtu,
-			KontakDarurat:      v.KontakDarurat,
-			Jaminan:            v.Jaminan,
-			Keterangan:         nil,
-			JeniscicilanId:     v.JeniscicilanId,
-			CreatedAt:          v.CreatedAt.Format("2006-01-02"),
-			UpdatedAt:          v.UpdatedAt.Format("2006-01-02"),
-		})
-	}
+	// 	response = append(response, entity.PengajuanCicilanResponse{
+	// 		PengajuancicilanId: v.PengajuancicilanId,
+	// 		UserId:             idEnc,
+	// 		NoKtp:              v.NoKtp,
+	// 		Alamat:             v.Alamat,
+	// 		NoSiswa:            v.NoSiswa,
+	// 		Pekerjaan:          v.Pekerjaan,
+	// 		Orangtua:           v.Orangtua,
+	// 		NohpOrtu:           v.NohpOrtu,
+	// 		KontakDarurat:      v.KontakDarurat,
+	// 		Jaminan:            v.Jaminan,
+	// 		Keterangan:         nil,
+	// 		JeniscicilanId:     v.JeniscicilanId,
+	// 		CreatedAt:          v.CreatedAt.Format("2006-01-02"),
+	// 		UpdatedAt:          v.UpdatedAt.Format("2006-01-02"),
+	// 	})
+	// }
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":  http.StatusOK,
 		"message": "Get Data Cicilan",
-		"data":    response,
+		"data":    result,
 	})
 }
 

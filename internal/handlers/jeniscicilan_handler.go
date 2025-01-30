@@ -4,6 +4,7 @@ import (
 	"echo-boilerplate/internal/entity"
 	"echo-boilerplate/internal/models"
 	"net/http"
+	"strconv"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 
@@ -79,5 +80,23 @@ func AddJenisCicilan(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":  http.StatusOK,
 		"message": "Tambah Jenis Cicilan Berhasil !",
+	})
+}
+
+func HapusCicilanById(c echo.Context) error {
+	cicilanId := c.QueryParam("cicilan_id")
+	cicilanIdInt, _ := strconv.Atoi(cicilanId)
+
+	err := models.DeleteCicilan(cicilanIdInt)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"status":  http.StatusOK,
+		"message": "Hapus Jenis Cicilan Berhasil !",
 	})
 }

@@ -22,3 +22,16 @@ type ResponseUsers struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type Customer struct {
+	Id             int       `json:"id" gorm:"primary_key"`
+	Nama           string    `json:"nama_user"`
+	Alamat         string    `json:"alamat"`
+	NamaOrangtua   string    `json:"nama_orangtua"`
+	NoTelp         string    `json:"no_telp"`
+	NoTelpOrangtua string    `json:"no_telp_orangtua"`
+	TempatLahir    string    `json:"tempat_lahir"`
+	TanggalLahir   time.Time `json:"tanggal_lahir"`
+	JenisKelamin   string    `json:"jenis_kelamin"`
+	CreatedAt      time.Time `json:"created_at"`
+}
