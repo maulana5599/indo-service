@@ -18,6 +18,16 @@ func GetJenisCicilan() ([]entity.JenisCicilan, error) {
 	return result, nil
 }
 
+func GetJenisCicilanId(id int) (entity.JenisCicilan, error) {
+	var result entity.JenisCicilan
+	tx := config.DB.Where("jenispinjaman_id = ?", id).First(&result)
+	if tx.Error != nil {
+		return result, tx.Error
+	}
+
+	return result, nil
+}
+
 func AddJenisCicilan(jenisCicilan *entity.JenisCicilan) error {
 	tx := config.DB.Create(jenisCicilan)
 	if tx.Error != nil {

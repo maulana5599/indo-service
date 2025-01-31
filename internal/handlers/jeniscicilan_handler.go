@@ -40,6 +40,44 @@ func GetJenisCicilan(c echo.Context) error {
 	})
 }
 
+func GetJenisCicilanId(c echo.Context) error {
+	cicilanId := c.QueryParam("cicilan_id")
+	cicilanIdInt, _ := strconv.Atoi(cicilanId)
+
+	validate := validation.Validate(cicilanIdInt, validation.Required)
+
+	if validate != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"status":  http.StatusBadRequest,
+			"message": "Jenis Cicilan Id Tidak Boleh Kosong !",
+		})
+	}
+
+	result, err := models.GetJenisCicilanId(cicilanIdInt)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{
+			"status":  http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+	}
+
+	response := entity.JenisCicilanResponse{
+		JenispinjamanId: result.JenispinjamanId,
+		NamaCicilan:     result.NamaCicilan,
+		PokokCicilan:    result.PokokCicilan,
+		TotalAngsuran:   result.TotalAngsuran,
+		JumlahAngsuran:  result.JumlahAngsuran,
+		MarginCicilan:   result.MarginCicilan,
+	}
+
+	return c.JSON(http.StatusOK, echo.Map{
+		"status":  http.StatusOK,
+		"message": "Get Jenis Cicilan By Id",
+		"data":    response,
+	})
+}
+
 func AddJenisCicilan(c echo.Context) error {
 	request := new(entity.JenisCicilanRequest)
 	if err := c.Bind(&request); err != nil {
