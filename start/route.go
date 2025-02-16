@@ -10,7 +10,7 @@ import (
 
 func Route(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
+		return c.String(http.StatusOK, "Hello, Selamat datang di service koperasi !")
 	})
 	v1 := e.Group("v1")
 	ServiceAuth(v1)
@@ -20,6 +20,7 @@ func Route(e *echo.Echo) {
 	ServiceJenisCicilan(v1Protected)
 	ServiceCicilan(v1Protected)
 	ServicePembayaranCicilan(v1Protected)
+	ServiceMaster(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -53,6 +54,14 @@ func ServiceCicilan(v1 *echo.Group) {
 }
 
 func ServicePembayaranCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa/:user_id", handlers.GetPembayaranCicilanId)
+	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa/:pengajuan_id", handlers.GetPembayaranCicilanId)
+	v1.GET("/sysadmin/get-pembayaran-detail-siswa/:pembayaran_id", handlers.GetPembayaranDetailId)
+	v1.GET("/sysadmin/get-header-cicilan-siswa/:user_id", handlers.GetHeaderCicialnId)
+	v1.GET("/sysadmin/generate-invoice", handlers.GenerateInvoice)
 	v1.POST("/sysadmin/ubah-status-pembayaran-cicilan", handlers.UbahStatusPembayaranCicilan)
+}
+
+func ServiceMaster(v1 *echo.Group) {
+	// Mata pelajaran.
+	v1.GET("/sysadmin/get-mapel", handlers.GetMapel)
 }

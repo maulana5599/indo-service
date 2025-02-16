@@ -64,7 +64,7 @@ func LoginHandler(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":       http.StatusOK,
-		"message":      "Login successfully",
+		"message":      "Login successfully !",
 		"access_token": tokenString,
 	})
 }

@@ -1,0 +1,20 @@
+FROM golang:1.23-alpine as builder
+
+# Setel direktori kerja di dalam container
+WORKDIR /app
+
+# Copy semua file proyek ke dalam container
+COPY . .
+
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime && \
+    echo "Asia/Jakarta" > /etc/timezone
+
+# Set environment variable
+ENV TZ=Asia/Jakarta
+
+# Install air untuk auto-reload
+RUN go install github.com/air-verse/air@latest
+
+# Setel command default untuk container
+CMD ["air"]

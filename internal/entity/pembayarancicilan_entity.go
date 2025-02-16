@@ -1,6 +1,8 @@
 package entity
 
-import "time"
+import (
+	"time"
+)
 
 type PembayaranCicilan struct {
 	PembayarancicilanId int `gorm:"primary_key"`
@@ -12,6 +14,20 @@ type PembayaranCicilan struct {
 	UserId              int
 	CreatedAt           time.Time
 	UpdatedAt           time.Time
+}
+
+type PembayaranCicilanView struct {
+	PembayarancicilanId int        `json:"pembayarancicilan_id"`
+	PengajuancicilanId  int        `json:"pengajuancicilan_id"`
+	Angsuran            int        `json:"angsuran"`
+	NominalPembayaran   float64    `json:"nominal_pembayaran"`
+	StatusPembayaran    int        `json:"status_pembayaran"`
+	NamaCicilan         string     `json:"nama_cicilan"`
+	TotalAngsuran       float64    `json:"total_angsuran"`
+	MarginCicilan       float64    `json:"margin_cicilan"`
+	UserId              int        `json:"user_id"`
+	Nama                string     `json:"nama_user"`
+	PaymentAt           *time.Time `json:"payment_at"`
 }
 
 type PembayaranCicilanResponse struct {
@@ -27,8 +43,10 @@ type PembayaranCicilanResponse struct {
 }
 
 type StatusPembayaranRequest struct {
-	StatusPembayaran    int `json:"status_pembayaran"`
-	PembayarancicilanId int `json:"pembayarancicilan_id"`
+	StatusPembayaran    int    `json:"status_pembayaran"`
+	NominalPembayaran   int    `json:"nominal_pembayaran"`
+	Keterangan          string `json:"keterangan"`
+	PembayarancicilanId int    `json:"pembayarancicilan_id"`
 }
 
 func (PembayaranCicilan) TableName() string {

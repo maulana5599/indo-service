@@ -4,13 +4,34 @@ import (
 	"echo-boilerplate/config"
 	"echo-boilerplate/internal/entity"
 	"errors"
+	"time"
 )
 
-func GetPembayaranCicilanId(userId int) ([]entity.PembayaranCicilanResponse, error) {
-	var result []entity.PembayaranCicilanResponse
-	tx := config.DB.Table("pembayarancicilan_t").Where("user_id = ?", userId).Find(&result)
+func GetHeaderCicilanId(userId int) ([]entity.PengajuanCicilanView, error) {
+	var result []entity.PengajuanCicilanView
+	tx := config.DB.Table("pengajuan_v").Where("user_id = ?", userId).Find(&result)
 	if tx.Error != nil {
 		return nil, tx.Error
+	}
+
+	return result, nil
+}
+
+func GetPembayaranCicilanId(userId int) ([]entity.PembayaranCicilanView, error) {
+	var result []entity.PembayaranCicilanView
+	tx := config.DB.Table("pembayarancicilan_v").Where("pengajuancicilan_id = ?", userId).Find(&result)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return result, nil
+}
+
+func GetPembayaranDetailId(pembayaranCicilanId int) (entity.PembayaranCicilanView, error) {
+	var result entity.PembayaranCicilanView
+	tx := config.DB.Table("pembayarancicilan_v").Where("pembayarancicilan_id = ?", pembayaranCicilanId).First(&result)
+	if tx.Error != nil {
+		return result, tx.Error
 	}
 
 	return result, nil
@@ -33,6 +54,8 @@ func UbahStatusPembayaranCicilan(pembayaranCicilan *entity.StatusPembayaranReque
 		Where("pembayarancicilan_id = ?", pembayaranCicilan.PembayarancicilanId).
 		Updates(map[string]interface{}{
 			"status_pembayaran": pembayaranCicilan.StatusPembayaran,
+			"keterangan":        pembayaranCicilan.Keterangan,
+			"payment_at":        time.Now().Format("2006-01-02 15:04:05"),
 		})
 
 	if updatePembayaranCicilan.Error != nil {

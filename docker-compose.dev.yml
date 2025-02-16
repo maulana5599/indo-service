@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  app:
+    container_name: "backend-service-koperasi"
+    build: 
+      dockerfile: Dockerfile.dev
+      context: .
+    volumes:
+      - .:/app
+    ports:
+      - "8090:8090"
+    working_dir: /app
+    restart: "unless-stopped"
+    command: ["air"]
+    
