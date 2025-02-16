@@ -42,6 +42,7 @@ func ServiceUsers(v1 *echo.Group) {
 
 func ServiceJenisCicilan(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-cicilan", handlers.GetJenisCicilan, middleware.AuthMiddleware)
+	v1.GET("/sysadmin/get-detail-cicilan", handlers.GetJenisCicilanId, middleware.AuthMiddleware)
 	v1.DELETE("/sysadmin/delete-jenis-cicilan", handlers.HapusCicilanById, middleware.AuthMiddleware)
 	v1.POST("/sysadmin/add-jenis-cicilan", handlers.AddJenisCicilan, middleware.AuthMiddleware)
 }
