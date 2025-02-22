@@ -21,6 +21,7 @@ func Route(e *echo.Echo) {
 	ServiceCicilan(v1Protected)
 	ServicePembayaranCicilan(v1Protected)
 	ServiceMaster(v1Protected)
+	ServiceLegal(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -65,4 +66,9 @@ func ServicePembayaranCicilan(v1 *echo.Group) {
 func ServiceMaster(v1 *echo.Group) {
 	// Mata pelajaran.
 	v1.GET("/sysadmin/get-mapel", handlers.GetMapel)
+}
+
+func ServiceLegal(v1 *echo.Group) {
+	v1.GET("/sysadmin/get-grafik-jobs", handlers.GetGrafikJobs)
+	v1.GET("/sysadmin/get-grafik-jobs-angkatan", handlers.GetGrafikJobsAngkatan)
 }
