@@ -2,6 +2,7 @@ package start
 
 import (
 	"echo-boilerplate/internal/handlers"
+	"echo-boilerplate/internal/handlers/lms"
 	"echo-boilerplate/pkg/middleware"
 	"net/http"
 
@@ -22,6 +23,7 @@ func Route(e *echo.Echo) {
 	ServicePembayaranCicilan(v1Protected)
 	ServiceMaster(v1Protected)
 	ServiceLegal(v1Protected)
+	ServiceLms(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -71,4 +73,9 @@ func ServiceMaster(v1 *echo.Group) {
 func ServiceLegal(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-grafik-jobs", handlers.GetGrafikJobs)
 	v1.GET("/sysadmin/get-grafik-jobs-angkatan", handlers.GetGrafikJobsAngkatan)
+}
+
+func ServiceLms(v1 *echo.Group) {
+	v1.GET("/sysadmin/get-learning-topic", lms.GetTopikPembelajaran)
+	v1.POST("/sysadmin/set-config-answer-key", lms.SetConfigAnswerKey)
 }
