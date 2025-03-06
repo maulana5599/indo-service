@@ -10,6 +10,7 @@ type QustionDetailM struct {
 	AnswerC          string `json:"answer_c"`
 	AnswerD          string `json:"answer_d"`
 	AnswerE          string `json:"answer_e"`
+	Section          int    `json:"section"`
 	CreatedAt        string `json:"created_at"`
 	UpdatedAt        string `json:"updated_at"`
 }
