@@ -77,5 +77,6 @@ func ServiceLegal(v1 *echo.Group) {
 
 func ServiceLms(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-learning-topic", lms.GetTopikPembelajaran)
+	v1.GET("/sysadmin/get-question-quiz", lms.GetQuestionQuiz)
 	v1.POST("/sysadmin/set-config-answer-key", lms.SetConfigAnswerKey)
 }
