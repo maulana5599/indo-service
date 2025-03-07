@@ -5,9 +5,9 @@ services:
       dockerfile: Dockerfile
       context: .
     image: backend-koperasi
-    container_name: backend-service-koperasi
+    container_name: ${CONTAINER_NAME}
     ports:
-      - 8090:8090
+      - ${APP_PORT}:${APP_PORT
     restart: "unless-stopped"
     tty: true
     networks:

@@ -1,14 +1,14 @@
 version: '3.9'
 services:
   app:
-    container_name: "backend-service-koperasi"
+    container_name: ${CONTAINER_NAME}
     build: 
       dockerfile: Dockerfile.dev
       context: .
     volumes:
       - .:/app
     ports:
-      - "8090:8090"
+      - "${APP_PORT}:${APP_PORT}"
     working_dir: /app
     restart: "unless-stopped"
     command: ["air"]
