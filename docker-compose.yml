@@ -7,7 +7,7 @@ services:
     image: backend-koperasi
     container_name: ${CONTAINER_NAME}
     ports:
-      - ${APP_PORT}:${APP_PORT
+      - ${APP_PORT}:${APP_PORT}"
     restart: "unless-stopped"
     tty: true
     networks:
