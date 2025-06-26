@@ -15,6 +15,7 @@ func GetLearningTopic(roomId int, page int, perPage int, search string) ([]entit
 	if search != "" {
 		tx = tx.Where("topic_name ILIKE ?", "%"+search+"%")
 	}
+	tx.Order("id ASC")
 
 	tx.Find(&result)
 
