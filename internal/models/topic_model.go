@@ -5,14 +5,20 @@ import (
 	"echo-boilerplate/internal/entity"
 )
 
-func GetLearningTopic(roomId int) ([]entity.TopiclessonT, error) {
+func GetLearningTopic(roomId int, page int, perPage int) ([]entity.TopiclessonT, int64, error) {
 	var result []entity.TopiclessonT
-	tx := config.DB.Where("room_id = ? AND deleted_at IS NULL AND is_archive IS FALSE", roomId).Find(&result)
+	var totalRecord int64
+	tx := config.DB.Where("room_id = ? AND deleted_at IS NULL AND is_archive IS FALSE", roomId).
+		Offset((page - 1) * perPage).
+		Limit(perPage).
+		Find(&result)
+
+	config.DB.Table("topiclesson_t").Where("room_id = ? AND deleted_at IS NULL AND is_archive IS FALSE", roomId).Count(&totalRecord)
 	if tx.Error != nil {
-		return nil, tx.Error
+		return nil, 0, tx.Error
 	}
 
-	return result, nil
+	return result, totalRecord, nil
 }
 
 func GetRoomTopic(roomId int) (entity.RoomTopic, error) {

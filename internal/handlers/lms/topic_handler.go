@@ -11,6 +11,8 @@ import (
 
 func GetTopikPembelajaran(c echo.Context) error {
 	roomId := c.QueryParam("room_id")
+	page, _ := strconv.Atoi(c.QueryParam("page"))
+	perPage, _ := strconv.Atoi(c.QueryParam("per_page"))
 
 	if roomId == "" {
 		return c.JSON(http.StatusBadRequest, echo.Map{
@@ -25,7 +27,7 @@ func GetTopikPembelajaran(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	result, _ := models.GetLearningTopic(roomIdInt)
+	result, totalRecord, _ := models.GetLearningTopic(roomIdInt, page, perPage)
 
 	roomTopic, err := GetTopicRoom(roomIdInt)
 
@@ -36,8 +38,11 @@ func GetTopikPembelajaran(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{
 		"status":  http.StatusOK,
 		"message": "Get Data Topik Pembelajaran",
-		"data":    result,
-		"class":   roomTopic,
+		"data": echo.Map{
+			"result":       result,
+			"total_record": totalRecord,
+		},
+		"class": roomTopic,
 	})
 }
 

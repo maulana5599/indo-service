@@ -3,6 +3,7 @@ package start
 import (
 	"echo-boilerplate/internal/handlers"
 	"echo-boilerplate/internal/handlers/lms"
+	"echo-boilerplate/internal/handlers/mensetsu"
 	"echo-boilerplate/pkg/middleware"
 	"net/http"
 
@@ -24,6 +25,7 @@ func Route(e *echo.Echo) {
 	ServiceMaster(v1Protected)
 	ServiceLegal(v1Protected)
 	ServiceLms(v1Protected)
+	ServiceMensetsu(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -79,4 +81,8 @@ func ServiceLms(v1 *echo.Group) {
 	v1.GET("/sysadmin/get-learning-topic", lms.GetTopikPembelajaran)
 	v1.GET("/sysadmin/get-question-quiz", lms.GetQuestionQuiz)
 	v1.POST("/sysadmin/set-config-answer-key", lms.SetConfigAnswerKey)
+}
+
+func ServiceMensetsu(v1 *echo.Group) {
+	v1.GET("/mensetsu/get-mensetsu", mensetsu.GetMensetsu)
 }

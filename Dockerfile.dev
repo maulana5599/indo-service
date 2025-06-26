@@ -14,7 +14,8 @@ RUN apk add --no-cache tzdata && \
 ENV TZ=Asia/Jakarta
 
 # Install air untuk auto-reload
-RUN go install github.com/air-verse/air@latest
+RUN go install github.com/cosmtrek/air@v1.45.0
+
 
 # Setel command default untuk container
 CMD ["air"]
