@@ -3,6 +3,7 @@ package lms
 import (
 	"echo-boilerplate/internal/entity"
 	"echo-boilerplate/internal/models"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -13,7 +14,9 @@ func GetTopikPembelajaran(c echo.Context) error {
 	roomId := c.QueryParam("room_id")
 	page, _ := strconv.Atoi(c.QueryParam("page"))
 	perPage, _ := strconv.Atoi(c.QueryParam("per_page"))
+	search := c.QueryParam("search")
 
+	fmt.Println(roomId, page, perPage, search)
 	if roomId == "" {
 		return c.JSON(http.StatusBadRequest, echo.Map{
 			"status":  http.StatusBadRequest,
@@ -27,7 +30,7 @@ func GetTopikPembelajaran(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	result, totalRecord, _ := models.GetLearningTopic(roomIdInt, page, perPage)
+	result, totalRecord, _ := models.GetLearningTopic(roomIdInt, page, perPage, search)
 
 	roomTopic, err := GetTopicRoom(roomIdInt)
 

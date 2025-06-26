@@ -5,13 +5,18 @@ import (
 	"echo-boilerplate/internal/entity"
 )
 
-func GetLearningTopic(roomId int, page int, perPage int) ([]entity.TopiclessonT, int64, error) {
+func GetLearningTopic(roomId int, page int, perPage int, search string) ([]entity.TopiclessonT, int64, error) {
 	var result []entity.TopiclessonT
 	var totalRecord int64
 	tx := config.DB.Where("room_id = ? AND deleted_at IS NULL AND is_archive IS FALSE", roomId).
 		Offset((page - 1) * perPage).
-		Limit(perPage).
-		Find(&result)
+		Limit(perPage)
+
+	if search != "" {
+		tx = tx.Where("topic_name ILIKE ?", "%"+search+"%")
+	}
+
+	tx.Find(&result)
 
 	config.DB.Table("topiclesson_t").Where("room_id = ? AND deleted_at IS NULL AND is_archive IS FALSE", roomId).Count(&totalRecord)
 	if tx.Error != nil {
