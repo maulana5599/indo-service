@@ -28,6 +28,9 @@ func main() {
 	// Load Database.
 	config.DatabaseConnection()
 
+	// Load S3 Storage.
+	config.StorageConnection()
+
 	// Load Route.
 	start.Route(e)
 	e.Logger.Fatal(e.Start(":" + portApp))

@@ -2,6 +2,7 @@ package start
 
 import (
 	"echo-boilerplate/internal/handlers"
+	"echo-boilerplate/internal/handlers/fileupload"
 	"echo-boilerplate/internal/handlers/lms"
 	"echo-boilerplate/internal/handlers/mensetsu"
 	"echo-boilerplate/pkg/middleware"
@@ -26,6 +27,7 @@ func Route(e *echo.Echo) {
 	ServiceLegal(v1Protected)
 	ServiceLms(v1Protected)
 	ServiceMensetsu(v1Protected)
+	ServiceUploadFile(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
@@ -85,4 +87,12 @@ func ServiceLms(v1 *echo.Group) {
 
 func ServiceMensetsu(v1 *echo.Group) {
 	v1.GET("/mensetsu/get-mensetsu", mensetsu.GetMensetsu)
+}
+
+func ServiceUploadFile(v1 *echo.Group) {
+	v1.GET("/file-upload/get-file", fileupload.GetFileHandler)
+	v1.POST("/file-upload/upload-file", fileupload.UploadFileHandler)
+	v1.POST("/file-upload/upload-file-initial-part", fileupload.UploadPartInitHandler)
+	v1.POST("/file-upload/upload-file-part", fileupload.UploadPartHandler)
+	v1.POST("/file-upload/complete-upload-file", fileupload.UploadPartCompleteHandler)
 }
