@@ -4,6 +4,7 @@ import (
 	"echo-boilerplate/config"
 	"echo-boilerplate/start"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -15,9 +16,20 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.CORS())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"*"},
-		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowOrigins:     []string{"*"}, // sementara allow all
+		AllowCredentials: true,
+		AllowMethods: []string{
+			http.MethodGet, http.MethodPost, http.MethodPut,
+			http.MethodDelete, http.MethodOptions, // penting
+		},
+		AllowHeaders: []string{
+			echo.HeaderOrigin, echo.HeaderContentType,
+			echo.HeaderAccept, echo.HeaderAuthorization,
+			"X-CSRF-TOKEN", "X-Requested-With",
+		},
+		ExposeHeaders: []string{"*"},
 	}))
+
 	e.Use(middleware.Recover())
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
 
