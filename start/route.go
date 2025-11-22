@@ -1,10 +1,9 @@
 package start
 
 import (
-	"echo-boilerplate/internal/handlers"
-	"echo-boilerplate/internal/handlers/fileupload"
-	"echo-boilerplate/internal/handlers/lms"
-	"echo-boilerplate/internal/handlers/mensetsu"
+	"echo-boilerplate/internal/auth"
+	"echo-boilerplate/internal/customer"
+	"echo-boilerplate/internal/product"
 	"echo-boilerplate/pkg/middleware"
 	"net/http"
 
@@ -13,86 +12,35 @@ import (
 
 func Route(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, Selamat datang di service koperasi !")
+		return c.String(http.StatusOK, "Hello, Welcome to Our API !")
 	})
 	v1 := e.Group("v1")
 	ServiceAuth(v1)
 
 	v1Protected := e.Group("v1", middleware.AuthMiddleware)
-	ServiceUsers(v1Protected)
-	ServiceJenisCicilan(v1Protected)
-	ServiceCicilan(v1Protected)
-	ServicePembayaranCicilan(v1Protected)
-	ServiceMaster(v1Protected)
-	ServiceLegal(v1Protected)
-	ServiceLms(v1Protected)
-	ServiceMensetsu(v1Protected)
-	ServiceUploadFile(v1Protected)
+	ServiceProducts(v1Protected)
+	ServiceCustomers(v1Protected)
 }
 
 func ServiceAuth(v1 *echo.Group) {
-	v1.POST("/login", handlers.LoginHandler)
+	v1.POST("/login", auth.LoginHandler)
+	v1.POST("/register", auth.RegisterCustomer)
 
 	v1.Group("", middleware.AuthMiddleware)
 	{
-		v1.GET("/profile", handlers.ValidateToken)
+		v1.GET("/profile", auth.ValidateToken)
 	}
 }
 
-func ServiceUsers(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-users", handlers.GetSiswa)
-	v1.GET("/sysadmin/get-users/:id", handlers.GetSiswaById)
-	v1.GET("/sysadmin/sync-users", handlers.SyncUsers)
-	v1.GET("/sysadmin/get-customer", handlers.GetCustomer)
-	v1.GET("/sysadmin/search-customer", handlers.SearchCustomer)
+func ServiceProducts(v1 *echo.Group) {
+	v1.GET("/products/get-products", product.GetProducts)
+	v1.GET("/products/get-product-detail/:id", product.GetProductDetail)
+	v1.POST("/products/add-product", product.AddProduct)
+	v1.DELETE("/products/delete-product/:id", product.DeleteProduct)
 }
 
-func ServiceJenisCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-cicilan", handlers.GetJenisCicilan, middleware.AuthMiddleware)
-	v1.GET("/sysadmin/get-detail-cicilan", handlers.GetJenisCicilanId, middleware.AuthMiddleware)
-	v1.DELETE("/sysadmin/delete-jenis-cicilan", handlers.HapusCicilanById, middleware.AuthMiddleware)
-	v1.POST("/sysadmin/add-jenis-cicilan", handlers.AddJenisCicilan, middleware.AuthMiddleware)
-}
-
-func ServiceCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-cicilan-siswa", handlers.GetDataCicilan)
-	v1.POST("/sysadmin/get-cicilan-siswa-id", handlers.GetCicilanUser)
-	v1.POST("/sysadmin/add-cicilan", handlers.AddCicilan)
-	v1.DELETE("/sysadmin/batal-cicilan", handlers.BatalPengajuanCicilan)
-}
-
-func ServicePembayaranCicilan(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-pembayaran-cicilan-siswa/:pengajuan_id", handlers.GetPembayaranCicilanId)
-	v1.GET("/sysadmin/get-pembayaran-detail-siswa/:pembayaran_id", handlers.GetPembayaranDetailId)
-	v1.GET("/sysadmin/get-header-cicilan-siswa/:user_id", handlers.GetHeaderCicialnId)
-	v1.GET("/sysadmin/generate-invoice", handlers.GenerateInvoice)
-	v1.POST("/sysadmin/ubah-status-pembayaran-cicilan", handlers.UbahStatusPembayaranCicilan)
-}
-
-func ServiceMaster(v1 *echo.Group) {
-	// Mata pelajaran.
-	v1.GET("/sysadmin/get-mapel", handlers.GetMapel)
-}
-
-func ServiceLegal(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-grafik-jobs", handlers.GetGrafikJobs)
-	v1.GET("/sysadmin/get-grafik-jobs-angkatan", handlers.GetGrafikJobsAngkatan)
-}
-
-func ServiceLms(v1 *echo.Group) {
-	v1.GET("/sysadmin/get-learning-topic", lms.GetTopikPembelajaran)
-	v1.GET("/sysadmin/get-question-quiz", lms.GetQuestionQuiz)
-	v1.POST("/sysadmin/set-config-answer-key", lms.SetConfigAnswerKey)
-}
-
-func ServiceMensetsu(v1 *echo.Group) {
-	v1.GET("/mensetsu/get-mensetsu", mensetsu.GetMensetsu)
-}
-
-func ServiceUploadFile(v1 *echo.Group) {
-	v1.GET("/file-upload/get-file", fileupload.GetFileHandler)
-	v1.POST("/file-upload/upload-file", fileupload.UploadFileHandler)
-	v1.POST("/file-upload/upload-file-initial-part", fileupload.UploadPartInitHandler)
-	v1.POST("/file-upload/upload-file-part", fileupload.UploadPartHandler)
-	v1.POST("/file-upload/complete-upload-file", fileupload.UploadPartCompleteHandler)
+func ServiceCustomers(v1 *echo.Group) {
+	v1.GET("/customers/get-customers", customer.GetCustomers)
+	v1.GET("/customers/get-customer-by-id/:id", customer.GetCustomerById)
+	v1.DELETE("/customers/delete-customer/:id", customer.DeleteCustomerById)
 }
