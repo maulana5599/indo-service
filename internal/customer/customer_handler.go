@@ -9,7 +9,9 @@ import (
 )
 
 func GetCustomers(c echo.Context) error {
-	result, err := FindAllCustomers()
+	customerName := c.QueryParam("customer_name")
+
+	result, err := FindAllCustomers(customerName)
 
 	if err != nil {
 		return echo.NewHTTPError(http.StatusOK, echo.Map{

@@ -5,9 +5,14 @@ import (
 	"strings"
 )
 
-func FindAllCustomers() ([]CustomerV, error) {
+func FindAllCustomers(customerName string) ([]CustomerV, error) {
 	var result []CustomerV
-	tx := config.DB.Table("customer_v").Find(&result)
+	tx := config.DB.Table("customer_v")
+	if customerName != "" {
+		tx = tx.Where("customer_name ILIKE ?", "%"+customerName+"%")
+	}
+
+	tx = tx.Find(&result)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
